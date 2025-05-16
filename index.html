@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduConnect - SaaS para Polos EAD</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,6 +73,24 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
+        
+        /* Melhorias de responsividade */
+        @media (max-width: 768px) {
+            .badge {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .progress-circle {
+                width: 100px;
+                height: 100px;
+            }
+            .progress-circle::before {
+                width: 90px;
+                height: 90px;
+            }
+        }
+        
         /* PDF Export Optimization */
         @media print {
             body {
@@ -88,18 +106,27 @@
             .no-print {
                 display: none;
             }
+            .print-only {
+                display: block !important;
+            }
+            /* Garantir que tabelas sejam exibidas corretamente no PDF */
+            table {
+                width: 100%;
+                display: table;
+                border-collapse: collapse;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- Navegação -->
     <nav class="bg-blue-600 text-white p-4 no-print fixed w-full z-50">
-        <div class="container mx-auto flex justify-between items-center">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
             <div class="flex items-center">
                 <i class="fas fa-graduation-cap text-2xl mr-2"></i>
                 <span class="text-xl font-bold">EduConnect</span>
             </div>
-            <div class="hidden md:flex space-x-6">
+            <div class="hidden md:flex space-x-4 lg:space-x-6">
                 <a href="#" class="nav-link" data-target="dashboard">Dashboard</a>
                 <a href="#" class="nav-link" data-target="captacao">Captação</a>
                 <a href="#" class="nav-link" data-target="whatsapp">Agente WhatsApp</a>
@@ -107,9 +134,26 @@
                 <a href="#" class="nav-link" data-target="vendas">Vendas</a>
                 <a href="#" class="nav-link" data-target="afiliados">Afiliados</a>
             </div>
-            <div class="flex items-center">
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <div class="hidden md:flex items-center">
                 <span class="mr-4">Polo Unicesumar AL</span>
                 <i class="fas fa-user-circle text-2xl"></i>
+            </div>
+        </div>
+        <!-- Menu móvel -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="dashboard">Dashboard</a>
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="captacao">Captação</a>
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="whatsapp">Agente WhatsApp</a>
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="crm">CRM</a>
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="vendas">Vendas</a>
+            <a href="#" class="block py-2 px-4 text-white hover:bg-blue-700 nav-link" data-target="afiliados">Afiliados</a>
+            <div class="py-2 px-4 border-t border-blue-700 mt-2">
+                <span>Polo Unicesumar AL</span>
             </div>
         </div>
     </nav>
@@ -168,7 +212,7 @@
     <section id="dashboard" class="section container mx-auto mt-8 p-4">
         <h2 class="text-2xl font-bold mb-6">Dashboard Principal</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <!-- Card 1: Total de Leads -->
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex justify-between items-center mb-4">
@@ -304,8 +348,8 @@
                 <!-- Lista de Campanhas -->
                 <ul class="space-y-4">
                     <li class="border rounded-lg p-4">
-                        <div class="flex justify-between">
-                            <div>
+                        <div class="flex justify-between flex-wrap md:flex-nowrap">
+                            <div class="mb-2 md:mb-0">
                                 <h4 class="font-bold">Quiz Vocacional</h4>
                                 <p class="text-sm text-gray-600">Quiz para descobrir o curso ideal</p>
                             </div>
@@ -314,7 +358,7 @@
                                 <span class="text-xs text-gray-500">42% conversão</span>
                             </div>
                         </div>
-                        <div class="mt-2 flex space-x-2">
+                        <div class="mt-2 flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Facebook</span>
                             <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">Instagram</span>
                             <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">WhatsApp</span>
@@ -322,8 +366,8 @@
                     </li>
                     
                     <li class="border rounded-lg p-4">
-                        <div class="flex justify-between">
-                            <div>
+                        <div class="flex justify-between flex-wrap md:flex-nowrap">
+                            <div class="mb-2 md:mb-0">
                                 <h4 class="font-bold">Simulador de Futuro</h4>
                                 <p class="text-sm text-gray-600">Simule sua carreira e salário</p>
                             </div>
@@ -332,15 +376,15 @@
                                 <span class="text-xs text-gray-500">37% conversão</span>
                             </div>
                         </div>
-                        <div class="mt-2 flex space-x-2">
+                        <div class="mt-2 flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Google</span>
                             <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">YouTube</span>
                         </div>
                     </li>
                     
                     <li class="border rounded-lg p-4">
-                        <div class="flex justify-between">
-                            <div>
+                        <div class="flex justify-between flex-wrap md:flex-nowrap">
+                            <div class="mb-2 md:mb-0">
                                 <h4 class="font-bold">Bolsa Especial Verão</h4>
                                 <p class="text-sm text-gray-600">Descontos especiais até 60%</p>
                             </div>
@@ -349,7 +393,7 @@
                                 <span class="text-xs text-gray-500">28% conversão</span>
                             </div>
                         </div>
-                        <div class="mt-2 flex space-x-2">
+                        <div class="mt-2 flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Facebook</span>
                             <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">E-mail</span>
                             <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">WhatsApp</span>
@@ -546,7 +590,7 @@
             </div>
             
             <!-- Conversa Ativa -->
-            <div class="bg-white rounded-lg shadow col-span-2">
+            <div class="bg-white rounded-lg shadow col-span-1 md:col-span-2">
                 <!-- Cabeçalho -->
                 <div class="border-b p-4 flex justify-between items-center">
                     <div class="flex items-center">
@@ -722,13 +766,13 @@
         
         <div class="bg-white rounded-lg shadow mb-6">
             <div class="border-b p-4 flex flex-wrap md:flex-nowrap justify-between items-center">
-                <div class="flex mb-3 md:mb-0">
-                    <div class="relative mr-4">
-                        <input type="text" placeholder="Buscar leads..." class="rounded-lg border py-2 px-4 pl-10 w-64">
+                <div class="flex flex-wrap w-full md:w-auto gap-3 mb-3 md:mb-0">
+                    <div class="relative">
+                        <input type="text" placeholder="Buscar leads..." class="rounded-lg border py-2 px-4 pl-10 w-full md:w-64">
                         <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
                     </div>
                     <div>
-                        <select class="rounded-lg border py-2 px-4 bg-white">
+                        <select class="rounded-lg border py-2 px-4 bg-white w-full md:w-auto">
                             <option>Todos os cursos</option>
                             <option>Administração</option>
                             <option>Pedagogia</option>
@@ -737,11 +781,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex space-x-2">
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
+                <div class="flex space-x-2 w-full md:w-auto">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg flex-grow md:flex-grow-0">
                         <i class="fas fa-filter mr-2"></i> Filtros
                     </button>
-                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg flex-grow md:flex-grow-0">
                         <i class="fas fa-plus mr-2"></i> Novo Lead
                     </button>
                 </div>
@@ -873,8 +917,8 @@
                 </table>
             </div>
             
-            <div class="border-t p-4 flex justify-between items-center">
-                <div>
+            <div class="border-t p-4 flex flex-wrap justify-between items-center">
+                <div class="mb-3 md:mb-0">
                     <span class="text-sm text-gray-600">Mostrando 1-4 de 156 leads</span>
                 </div>
                 <div class="flex space-x-1">
@@ -889,19 +933,19 @@
         
         <!-- Detalhes do Lead -->
         <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center">
+            <div class="flex flex-wrap justify-between items-center mb-6">
+                <div class="flex items-center mb-3 md:mb-0">
                     <div class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl mr-4">CO</div>
                     <div>
                         <h3 class="text-xl font-bold">Carlos Oliveira</h3>
                         <p class="text-gray-600">Lead para Administração • Captado via WhatsApp</p>
                     </div>
                 </div>
-                <div>
-                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg mr-2">
+                <div class="w-full md:w-auto flex space-x-2">
+                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg flex-grow md:flex-grow-0">
                         <i class="fas fa-check-circle mr-2"></i> Converter
                     </button>
-                    <button class="border border-blue-600 text-blue-600 hover:bg-blue-50 py-2 px-4 rounded-lg">
+                    <button class="border border-blue-600 text-blue-600 hover:bg-blue-50 py-2 px-4 rounded-lg flex-grow md:flex-grow-0">
                         <i class="fas fa-edit mr-2"></i> Editar
                     </button>
                 </div>
@@ -1004,21 +1048,21 @@
         <h2 class="text-2xl font-bold mb-6">Dashboard de Vendas com Gamificação</h2>
         
         <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <div class="flex flex-wrap md:flex-nowrap justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-700">Seu Desempenho</h3>
-                <div class="flex space-x-4">
-                    <select class="border rounded py-2 px-4">
+            <div class="flex flex-wrap justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-700 mb-3 md:mb-0">Seu Desempenho</h3>
+                <div class="flex flex-wrap gap-4 w-full md:w-auto">
+                    <select class="border rounded py-2 px-4 w-full md:w-auto mb-2 md:mb-0">
                         <option>Outubro/2023</option>
                         <option>Setembro/2023</option>
                         <option>Agosto/2023</option>
                     </select>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg w-full md:w-auto">
                         <i class="fas fa-chart-line mr-2"></i> Relatórios
                     </button>
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
                 <div class="bg-gray-50 rounded-lg p-4">
                     <div class="flex justify-between items-center">
                         <h4 class="font-bold text-gray-700">Matrículas</h4>
@@ -1058,8 +1102,8 @@
             
             <div class="bg-blue-50 rounded-lg p-6 relative overflow-hidden">
                 <div class="relative z-10">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
+                    <div class="flex flex-wrap justify-between items-center mb-4">
+                        <div class="mb-3 md:mb-0">
                             <h3 class="text-xl font-bold text-blue-800">Nível Atual: Vendedor Master</h3>
                             <p class="text-blue-600">Você está a 160 pontos de se tornar um Vendedor Elite!</p>
                         </div>
@@ -1084,7 +1128,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Ranking de Vendedores -->
-            <div class="bg-white rounded-lg shadow p-6 col-span-2">
+            <div class="bg-white rounded-lg shadow p-6 col-span-1 md:col-span-2">
                 <h3 class="text-xl font-bold text-gray-700 mb-4">Ranking de Vendedores</h3>
                 
                 <div class="overflow-x-auto">
@@ -1428,18 +1472,32 @@
         </div>
     </section>
 
+    <!-- Footer - Apenas para impressão -->
+    <footer class="hidden print-only mt-12 p-4 text-center text-gray-500 border-t">
+        <p>© 2023 EduConnect - SaaS para Polos EAD | Protótipo de Apresentação</p>
+        <p class="text-xs mt-2">Este protótipo visual ilustra as principais funcionalidades do sistema EduConnect, uma solução completa para otimização da gestão, captação e conversão de leads para polos de educação à distância.</p>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Navegação entre seções
             const navLinks = document.querySelectorAll('.nav-link');
             const loginBtn = document.querySelector('.login-btn');
             const sections = document.querySelectorAll('.section');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
             
             function showSection(sectionId) {
                 sections.forEach(section => {
                     section.classList.remove('active');
                 });
                 document.getElementById(sectionId).classList.add('active');
+                
+                // Fechar menu móvel ao navegar
+                if (mobileMenu.classList.contains('block')) {
+                    mobileMenu.classList.remove('block');
+                    mobileMenu.classList.add('hidden');
+                }
             }
             
             navLinks.forEach(link => {
@@ -1455,6 +1513,19 @@
                     e.preventDefault();
                     const target = this.getAttribute('data-target');
                     showSection(target);
+                });
+            }
+            
+            // Toggle do menu móvel
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    if (mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenu.classList.add('block');
+                    } else {
+                        mobileMenu.classList.remove('block');
+                        mobileMenu.classList.add('hidden');
+                    }
                 });
             }
             
